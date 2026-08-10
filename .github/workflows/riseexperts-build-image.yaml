@@ -70,11 +70,27 @@ jobs:
           printf '%s\n' "$DEPLOY_SSH_KEY" > ~/.ssh/deploy
           chmod 600 ~/.ssh/deploy
           ssh-keyscan -H "$DEPLOY_HOST" >> ~/.ssh/known_hosts 2>/dev/null
+
+          # GHCR is private. Rather than leaving a long-lived PAT on the CRM
+          # host, log it in with this run's own token, which expires when the
+          # job ends, and log out again afterwards.
+          printf '%s' "${{ secrets.GITHUB_TOKEN }}" | ssh -i ~/.ssh/deploy -o BatchMode=yes \
+            "$DEPLOY_USER@$DEPLOY_HOST" \
+            "docker login ghcr.io -u ${{ github.actor }} --password-stdin"
+
           # deploy-image.sh lives in the private twenty-apps repo, already
           # cloned on the host, so the rollback logic is version controlled in
           # one place rather than duplicated in this workflow.
+          set +e
           ssh -i ~/.ssh/deploy -o BatchMode=yes "$DEPLOY_USER@$DEPLOY_HOST" \
             "cd /root/twenty-apps && git pull --quiet && bash deploy/deploy-image.sh ${{ env.IMAGE }}:${{ github.sha }}"
+          deploy_status=$?
+          set -e
+
+          ssh -i ~/.ssh/deploy -o BatchMode=yes "$DEPLOY_USER@$DEPLOY_HOST" \
+            "docker logout ghcr.io >/dev/null 2>&1 || true"
+
+          exit "$deploy_status"
 
       - name: Summarise
         run: |
