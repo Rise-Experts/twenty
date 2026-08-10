@@ -3,6 +3,13 @@
 **/node_modules
 .nx/cache
 packages/twenty-server/.env
-**/dist
-**/build
+
+# Host build output only. Twenty's Dockerfile silently uses
+# packages/twenty-front/build if it finds one in the context, so a stray local
+# build would otherwise be baked into the image.
+#
+# Do NOT use **/build or **/dist here: twenty-sdk keeps CLI *source* under
+# .../utilities/build/ and twenty-ui commits real CSS under dist/, so the
+# broad patterns break the build with ENOENT on a source file.
+packages/twenty-front/build
 .playwright-mcp
