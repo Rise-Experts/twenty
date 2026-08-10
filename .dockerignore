@@ -3,3 +3,6 @@
 **/node_modules
 .nx/cache
 packages/twenty-server/.env
+**/dist
+**/build
+.playwright-mcp

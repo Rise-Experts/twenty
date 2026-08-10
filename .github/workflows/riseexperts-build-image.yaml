@@ -13,6 +13,11 @@ on:
         description: Extra tag to publish alongside the commit SHA
         required: false
         default: latest
+      no_cache:
+        description: Ignore the layer cache. Needed after a cancelled build, which can export a half-written layer and then fail the next run with ENOTEMPTY on packages/twenty-sdk/dist.
+        required: false
+        type: boolean
+        default: false
 
 concurrency:
   group: riseexperts-image-${{ github.ref }}
@@ -52,8 +57,9 @@ jobs:
           tags: |
             ${{ env.IMAGE }}:${{ github.sha }}
             ${{ env.IMAGE }}:${{ inputs.tag || 'latest' }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          no-cache: ${{ inputs.no_cache == true }}
+          cache-from: ${{ inputs.no_cache == true && '' || 'type=gha' }}
+          cache-to: ${{ inputs.no_cache == true && '' || 'type=gha,mode=max' }}
 
       - name: Deploy to crm.riseexperts.de
         if: github.ref == 'refs/heads/riseexperts/main'
