@@ -55,6 +55,27 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
+      - name: Deploy to crm.riseexperts.de
+        if: github.ref == 'refs/heads/riseexperts/main'
+        env:
+          DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+        run: |
+          if [ -z "$DEPLOY_SSH_KEY" ]; then
+            echo "DEPLOY_SSH_KEY is not set; skipping deploy." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          mkdir -p ~/.ssh
+          printf '%s\n' "$DEPLOY_SSH_KEY" > ~/.ssh/deploy
+          chmod 600 ~/.ssh/deploy
+          ssh-keyscan -H "$DEPLOY_HOST" >> ~/.ssh/known_hosts 2>/dev/null
+          # deploy-image.sh lives in the private twenty-apps repo, already
+          # cloned on the host, so the rollback logic is version controlled in
+          # one place rather than duplicated in this workflow.
+          ssh -i ~/.ssh/deploy -o BatchMode=yes "$DEPLOY_USER@$DEPLOY_HOST" \
+            "cd /root/twenty-apps && git pull --quiet && bash deploy/deploy-image.sh ${{ env.IMAGE }}:${{ github.sha }}"
+
       - name: Summarise
         run: |
           echo "### Image pushed" >> "$GITHUB_STEP_SUMMARY"
