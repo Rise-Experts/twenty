@@ -1,6 +1,7 @@
 import { type OAuthProviderTokenRequestContentType } from 'twenty-shared/application';
 
 import { type TokenExchangeResponse } from 'src/engine/core-modules/application/connection-provider/types/token-exchange-response.type';
+import { clientIdParamNameFor } from 'src/engine/core-modules/application/connection-provider/utils/oauth-provider-quirks.util';
 import { postOAuthTokenRequest } from 'src/engine/core-modules/application/connection-provider/utils/post-oauth-token-request.util';
 
 type FetchFn = typeof globalThis.fetch;
@@ -20,7 +21,7 @@ export const exchangeRefreshTokenForToken = (args: {
     params: {
       grant_type: 'refresh_token',
       refresh_token: args.refreshToken,
-      client_id: args.clientId,
+      [clientIdParamNameFor(args.tokenEndpoint)]: args.clientId,
       client_secret: args.clientSecret,
     },
   });

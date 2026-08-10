@@ -17,6 +17,10 @@ import {
   type OAuthConnectionProvider,
 } from 'src/engine/core-modules/application/connection-provider/utils/assert-oauth-provider.util';
 import { buildAppOAuthCallbackUrl } from 'src/engine/core-modules/application/connection-provider/utils/build-callback-url.util';
+import {
+  clientIdParamNameFor,
+  scopeSeparatorFor,
+} from 'src/engine/core-modules/application/connection-provider/utils/oauth-provider-quirks.util';
 import { computePkceChallenge } from 'src/engine/core-modules/application/connection-provider/utils/compute-pkce-challenge.util';
 import { exchangeCodeForToken } from 'src/engine/core-modules/application/connection-provider/utils/exchange-code-for-token.util';
 import { generatePkceVerifier } from 'src/engine/core-modules/application/connection-provider/utils/generate-pkce-verifier.util';
@@ -119,10 +123,16 @@ export class ConnectionProviderOAuthFlowService {
 
     const authorizationUrl = new URL(authorizationEndpoint);
 
-    authorizationUrl.searchParams.set('client_id', clientId);
+    authorizationUrl.searchParams.set(
+      clientIdParamNameFor(authorizationEndpoint),
+      clientId,
+    );
     authorizationUrl.searchParams.set('redirect_uri', callbackUrl);
     authorizationUrl.searchParams.set('response_type', 'code');
-    authorizationUrl.searchParams.set('scope', scopes.join(' '));
+    authorizationUrl.searchParams.set(
+      'scope',
+      scopes.join(scopeSeparatorFor(authorizationEndpoint)),
+    );
     authorizationUrl.searchParams.set('state', state);
 
     if (codeVerifier) {
