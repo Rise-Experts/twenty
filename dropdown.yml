@@ -1,0 +1,27 @@
+- generic [ref=f17e1]:
+  - generic [ref=f17e4]:
+    - generic [ref=f17e7]:
+      - link "Settings" [ref=f17e9] [cursor=pointer]:
+        - /url: /
+        - button "Settings" [ref=f17e10]
+      - generic [ref=f17e18]:
+        - tablist "Navigation tabs" [ref=f17e19]
+        - button "New chat" [ref=f17e30] [cursor=pointer]
+      - generic [ref=f17e38]:
+        - generic [ref=f17e40]
+        - generic [ref=f17e106]
+        - generic [ref=f17e195]
+      - generic [ref=f17e246] [cursor=pointer]:
+        - generic [ref=f17e247]: Advanced
+        - switch "Advanced" [ref=f17e248]
+        - checkbox [ref=f17e250]
+    - generic [ref=f17e252]:
+      - generic [ref=f17e258]:
+        - generic [ref=f17e260]
+        - generic [ref=f17e277]
+      - complementary [ref=f17e377]
+  - listbox [ref=f17e378]:
+    - listbox [ref=f17e383]:
+      - generic [ref=f17e384]:
+        - generic [ref=f17e385] [cursor=pointer]: Just for me
+        - generic [ref=f17e393] [cursor=pointer]: Workspace shared

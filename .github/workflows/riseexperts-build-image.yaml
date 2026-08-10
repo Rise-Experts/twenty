@@ -50,6 +50,12 @@ jobs:
         with:
           context: .
           file: ./packages/twenty-docker/twenty/Dockerfile
+          # Mandatory. The Dockerfile is multi-target and twenty-app-dev, the
+          # all-in-one with an embedded Postgres and Redis under s6, is the
+          # LAST stage — so omitting this silently builds the dev image. It
+          # pulls, starts, and never becomes healthy behind an external
+          # database. `twenty` is the target that matches twentycrm/twenty.
+          target: twenty
           # The CRM host is x86_64. Building arm64 as well would roughly
           # double the build for an image nothing runs.
           platforms: linux/amd64

@@ -1,0 +1,100 @@
+- generic [ref=f3e4]:
+  - generic [ref=f3e7]:
+    - link "Settings" [ref=f3e9] [cursor=pointer]:
+      - /url: /
+      - button "Settings" [ref=f3e10]
+    - generic [ref=f3e18]:
+      - tablist "Navigation tabs" [ref=f3e19]:
+        - tab "Settings" [selected] [ref=f3e20] [cursor=pointer]
+        - tab "Chat" [ref=f3e25] [cursor=pointer]
+      - button "New chat" [ref=f3e30] [cursor=pointer]
+    - generic [ref=f3e38]:
+      - generic [ref=f3e40]:
+        - generic [ref=f3e41]: User
+        - generic [ref=f3e49]:
+          - link "Profile" [ref=f3e51] [cursor=pointer]:
+            - /url: /settings/profile
+          - link "Experience" [ref=f3e61] [cursor=pointer]:
+            - /url: /settings/experience
+          - generic [ref=f3e70]:
+            - link "Accounts" [ref=f3e72] [cursor=pointer]:
+              - /url: /settings/accounts
+            - link "Emails" [ref=f3e81] [cursor=pointer]:
+              - /url: /settings/accounts/emails
+            - link "Calendars" [ref=f3e94] [cursor=pointer]:
+              - /url: /settings/accounts/calendars
+      - generic [ref=f3e106]:
+        - generic [ref=f3e107]: Workspace
+        - generic [ref=f3e115]:
+          - link "General" [ref=f3e117] [cursor=pointer]:
+            - /url: /settings/general
+          - link "Data model" [ref=f3e126] [cursor=pointer]:
+            - /url: /settings/objects
+          - link "Layout" [ref=f3e137] [cursor=pointer]:
+            - /url: /settings/layout
+          - link "Members" [ref=f3e147] [cursor=pointer]:
+            - /url: /settings/members
+          - link "MCP & APIs" [ref=f3e158] [cursor=pointer]:
+            - /url: /settings/mcp-apis
+          - link "Apps" [ref=f3e169] [cursor=pointer]:
+            - /url: /settings/applications
+          - link "AI" [ref=f3e179] [cursor=pointer]:
+            - /url: /settings/ai
+          - link "Communication" [ref=f3e187] [cursor=pointer]:
+            - /url: /settings/communications
+      - generic [ref=f3e195]:
+        - generic [ref=f3e196]: Other
+        - generic [ref=f3e204]:
+          - link "Admin Panel" [ref=f3e206] [cursor=pointer]:
+            - /url: /settings/admin-panel
+          - link "Community" [ref=f3e215] [cursor=pointer]:
+            - /url: /settings/community
+          - button "Documentation" [ref=f3e226] [cursor=pointer]
+          - button "Logout" [ref=f3e235] [cursor=pointer]
+    - generic [ref=f3e246] [cursor=pointer]:
+      - generic [ref=f3e247]: Advanced
+      - switch "Advanced" [ref=f3e248]
+      - checkbox [ref=f3e250]
+  - generic [ref=f3e252]:
+    - generic [ref=f3e258]:
+      - generic [ref=f3e260]:
+        - navigation [ref=f3e262]:
+          - link "Workspace" [ref=f3e264] [cursor=pointer]:
+            - /url: /settings/general
+          - generic [ref=f3e265]: /
+          - link "Applications" [ref=f3e267] [cursor=pointer]:
+            - /url: /settings/applications
+          - generic [ref=f3e268]: /
+          - generic "Social" [ref=f3e270]
+        - generic [ref=f3e271]:
+          - generic [ref=f3e272]: S
+          - generic [ref=f3e275]: Social
+      - generic [ref=f3e278]:
+        - generic [ref=f3e281]:
+          - generic [ref=f3e282]:
+            - generic [ref=f3e283]: "Sync lost with mailbox tim@apple.dev. Please reconnect for updates:"
+            - button "Reconnect ..." [ref=f3e285] [cursor=pointer]
+          - button "Close banner" [ref=f3e289] [cursor=pointer]
+        - generic [ref=f3e294]:
+          - generic [ref=f3e298]:
+            - link "About" [ref=f3e300] [cursor=pointer]:
+              - /url: /settings/applications/029720f8-f8a2-421e-9322-4e587b9ae833#about
+            - link "Content" [ref=f3e306] [cursor=pointer]:
+              - /url: /settings/applications/029720f8-f8a2-421e-9322-4e587b9ae833#content
+            - link "Permissions" [ref=f3e313] [cursor=pointer]:
+              - /url: /settings/applications/029720f8-f8a2-421e-9322-4e587b9ae833#permissions
+            - link "Settings" [ref=f3e320] [cursor=pointer]:
+              - /url: /settings/applications/029720f8-f8a2-421e-9322-4e587b9ae833#settings
+          - generic [ref=f3e325]:
+            - generic [ref=f3e326]
+            - generic [ref=f3e331]: TikTok OAuth is not yet set up by your server administrator. They need to fill in the OAuth client ID and secret on the application registration before you can add a connection.
+          - generic [ref=f3e336]:
+            - generic [ref=f3e337]
+            - generic [ref=f3e342]: LinkedIn OAuth is not yet set up by your server administrator. They need to fill in the OAuth client ID and secret on the application registration before you can add a connection.
+          - generic [ref=f3e347]:
+            - generic [ref=f3e348]
+            - generic [ref=f3e353]: Facebook & Instagram OAuth is not yet set up by your server administrator. They need to fill in the OAuth client ID and secret on the application registration before you can add a connection.
+          - generic [ref=f3e358]:
+            - generic [ref=f3e359]
+            - generic [ref=f3e364]
+    - complementary [ref=f3e436]

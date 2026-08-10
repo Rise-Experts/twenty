@@ -1,0 +1,94 @@
+- generic [ref=f9e4]:
+  - generic [ref=f9e7]:
+    - link "Settings" [ref=f9e9] [cursor=pointer]:
+      - /url: /
+      - button "Settings" [ref=f9e10]
+    - generic [ref=f9e18]:
+      - tablist "Navigation tabs" [ref=f9e19]:
+        - tab "Settings" [selected] [ref=f9e20] [cursor=pointer]
+        - tab "Chat" [ref=f9e25] [cursor=pointer]
+      - button "New chat" [ref=f9e30] [cursor=pointer]
+    - generic [ref=f9e38]:
+      - generic [ref=f9e40]:
+        - generic [ref=f9e41]: User
+        - generic [ref=f9e49]:
+          - link "Profile" [ref=f9e51] [cursor=pointer]:
+            - /url: /settings/profile
+          - link "Experience" [ref=f9e61] [cursor=pointer]:
+            - /url: /settings/experience
+          - generic [ref=f9e70]:
+            - link "Accounts" [ref=f9e72] [cursor=pointer]:
+              - /url: /settings/accounts
+            - link "Emails" [ref=f9e81] [cursor=pointer]:
+              - /url: /settings/accounts/emails
+            - link "Calendars" [ref=f9e94] [cursor=pointer]:
+              - /url: /settings/accounts/calendars
+      - generic [ref=f9e106]:
+        - generic [ref=f9e107]: Workspace
+        - generic [ref=f9e115]:
+          - link "General" [ref=f9e117] [cursor=pointer]:
+            - /url: /settings/general
+          - link "Data model" [ref=f9e126] [cursor=pointer]:
+            - /url: /settings/objects
+          - link "Layout" [ref=f9e137] [cursor=pointer]:
+            - /url: /settings/layout
+          - link "Members" [ref=f9e147] [cursor=pointer]:
+            - /url: /settings/members
+          - link "MCP & APIs" [ref=f9e158] [cursor=pointer]:
+            - /url: /settings/mcp-apis
+          - link "Apps" [ref=f9e169] [cursor=pointer]:
+            - /url: /settings/applications
+          - link "AI" [ref=f9e179] [cursor=pointer]:
+            - /url: /settings/ai
+          - link "Communication" [ref=f9e187] [cursor=pointer]:
+            - /url: /settings/communications
+      - generic [ref=f9e195]:
+        - generic [ref=f9e196]: Other
+        - generic [ref=f9e204]:
+          - link "Admin Panel" [ref=f9e206] [cursor=pointer]:
+            - /url: /settings/admin-panel
+          - link "Community" [ref=f9e215] [cursor=pointer]:
+            - /url: /settings/community
+          - button "Documentation" [ref=f9e226] [cursor=pointer]
+          - button "Logout" [ref=f9e235] [cursor=pointer]
+    - generic [ref=f9e246] [cursor=pointer]:
+      - generic [ref=f9e247]: Advanced
+      - switch "Advanced" [ref=f9e248]
+      - checkbox [ref=f9e250]
+  - generic [ref=f9e252]:
+    - generic [ref=f9e258]:
+      - generic [ref=f9e260]:
+        - navigation [ref=f9e262]:
+          - link "Workspace" [ref=f9e264] [cursor=pointer]:
+            - /url: /settings/general
+          - generic [ref=f9e265]: /
+          - generic "Applications" [ref=f9e267]
+        - generic [ref=f9e268]: Applications
+      - generic [ref=f9e277]:
+        - link "Marketplace" [ref=f9e279] [cursor=pointer]:
+          - /url: /settings/applications#marketplace
+        - link "Installed" [ref=f9e285] [cursor=pointer]:
+          - /url: /settings/applications#installed
+        - link "Developer" [ref=f9e292] [cursor=pointer]:
+          - /url: /settings/applications#developer
+      - generic [ref=f9e298]:
+        - generic [ref=f9e301]:
+          - generic [ref=f9e302]:
+            - generic [ref=f9e303]: "Sync lost with mailbox tim@apple.dev. Please reconnect for updates:"
+            - button "Reconnect ..." [ref=f9e305] [cursor=pointer]:
+              - generic [ref=f9e306]:
+                - generic [ref=f9e307]: Reconnect
+                - generic [ref=f9e308]: ...
+          - button "Close banner" [ref=f9e309] [cursor=pointer]
+        - generic [ref=f9e319]:
+          - generic [ref=f9e321]:
+            - textbox "Search an application" [ref=f9e327]
+            - button "Filter" [ref=f9e328]:
+              - button "Filter" [ref=f9e329] [cursor=pointer]
+          - link "Last contact Know where every relationship stands. Adds Last contact, Last outbound, Last inbound, Last contact by, and the last email and meeting to People, plus Last contact on Companies and Opportunities, kept up to date automatically from your synced emails and meetings. by Twenty" [ref=f9e335] [cursor=pointer]:
+            - /url: /settings/applications/available/66a504cc-0a75-410e-a43f-cdeae1db1522
+            - generic [ref=f9e339]:
+              - generic [ref=f9e340]: Last contact
+              - generic [ref=f9e341]: Know where every relationship stands. Adds Last contact, Last outbound, Last inbound, Last contact by, and the last email and meeting to People, plus Last contact on Companies and Opportunities, kept up to date automatically from your synced emails and meetings.
+              - generic [ref=f9e342]: by Twenty
+    - complementary [ref=f9e344]

@@ -1,5 +1,12 @@
 {
   "mcpServers": {
+    "twenty-rise": {
+      "type": "http",
+      "url": "https://crm.riseexperts.de/mcp",
+      "headers": {
+        "Authorization": "Bearer ${TWENTY_RISE_API_KEY}"
+      }
+    },
     "postgres": {
       "type": "stdio",
       "command": "bash",
