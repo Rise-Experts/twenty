@@ -64,6 +64,7 @@ import {
 } from 'src/engine/metadata-modules/ai/ai-chat/tools/ask-questions.tool';
 import { type ExtractedFile } from 'src/engine/metadata-modules/ai/ai-chat/types/extracted-file.type';
 import { extractCodeInterpreterFiles } from 'src/engine/metadata-modules/ai/ai-chat/utils/extract-code-interpreter-files.util';
+import { injectAttachedFileIds } from 'src/engine/metadata-modules/ai/ai-chat/utils/inject-attached-file-ids.util';
 import { injectMessageTimestamps } from 'src/engine/metadata-modules/ai/ai-chat/utils/inject-message-timestamps.util';
 import {
   getCacheProviderOptions,
@@ -279,6 +280,12 @@ export class ChatExecutionService {
         contextString,
       );
     }
+
+    // After the code interpreter has taken its files, so a spreadsheet is not
+    // listed twice: it already appears in the uploaded files prompt section.
+    // What is left here is what the model can actually see, which is images,
+    // video, audio and PDFs.
+    processedMessages = injectAttachedFileIds(processedMessages);
 
     processedMessages = injectMessageTimestamps(
       processedMessages,
