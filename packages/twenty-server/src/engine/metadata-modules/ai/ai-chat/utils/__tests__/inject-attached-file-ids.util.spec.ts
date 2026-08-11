@@ -1,6 +1,7 @@
 import { type ExtendedUIMessage } from 'twenty-shared/ai';
 
 import { injectAttachedFileIds } from 'src/engine/metadata-modules/ai/ai-chat/utils/inject-attached-file-ids.util';
+import { replaceUnsupportedFileParts } from 'src/engine/metadata-modules/ai/ai-chat/utils/replace-unsupported-file-parts.util';
 
 const buildFilePart = (
   mediaType: string,
@@ -111,5 +112,47 @@ describe('injectAttachedFileIds', () => {
     expect(lastText(injectAttachedFileIds(messages)[0])).toContain(
       '`attachment` (image/png)',
     );
+  });
+});
+
+// Guards the order these two run in inside chat-execution.service.
+// replaceUnsupportedFileParts turns a file the model cannot read into a text
+// stub and drops the fileId with it, so injecting afterwards loses exactly the
+// files the agent most needs a handle for.
+describe('injectAttachedFileIds ordering against replaceUnsupportedFileParts', () => {
+  const textOf = (message: ExtendedUIMessage): string =>
+    message.parts
+      .map((part) => (part.type === 'text' ? part.text : ''))
+      .join('\n');
+
+  it('keeps the id of a file the model cannot read', () => {
+    const messages = [
+      buildMessage('user', [
+        buildFilePart('video/quicktime', 'file-1', 'clip.mov'),
+      ]),
+    ];
+
+    const stubbed = replaceUnsupportedFileParts(
+      injectAttachedFileIds(messages),
+      ['image'],
+      false,
+    );
+
+    expect(textOf(stubbed[0])).toContain('`file-1`');
+    expect(textOf(stubbed[0])).toContain('not supported for direct analysis');
+  });
+
+  it('loses the id when run the other way round', () => {
+    const messages = [
+      buildMessage('user', [
+        buildFilePart('video/quicktime', 'file-1', 'clip.mov'),
+      ]),
+    ];
+
+    const wrongOrder = injectAttachedFileIds(
+      replaceUnsupportedFileParts(messages, ['image'], false),
+    );
+
+    expect(textOf(wrongOrder[0])).not.toContain('`file-1`');
   });
 });

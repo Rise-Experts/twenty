@@ -245,8 +245,16 @@ export class ChatExecutionService {
 
     const isCodeInterpreterEnabled = this.codeInterpreterService.isEnabled();
 
-    let processedMessages: ExtendedUIMessage[] = replaceUnsupportedFileParts(
-      messages,
+    // Before replaceUnsupportedFileParts, which swaps a file the model cannot
+    // read for a text stub and drops the fileId with it. That is precisely the
+    // file the agent most needs a handle for: it cannot look at the thing, so a
+    // reference is the only way it can act on it. Listing the ids first means
+    // every attachment gets one, supported or not.
+    let processedMessages: ExtendedUIMessage[] =
+      injectAttachedFileIds(messages);
+
+    processedMessages = replaceUnsupportedFileParts(
+      processedMessages,
       modelConfig.modalities,
       isCodeInterpreterEnabled,
     );
@@ -280,12 +288,6 @@ export class ChatExecutionService {
         contextString,
       );
     }
-
-    // After the code interpreter has taken its files, so a spreadsheet is not
-    // listed twice: it already appears in the uploaded files prompt section.
-    // What is left here is what the model can actually see, which is images,
-    // video, audio and PDFs.
-    processedMessages = injectAttachedFileIds(processedMessages);
 
     processedMessages = injectMessageTimestamps(
       processedMessages,
