@@ -7,12 +7,14 @@ const buildFilePart = (
   mediaType: string,
   fileId: string,
   filename?: string,
+  storagePath?: string,
 ) => ({
   type: 'file' as const,
   mediaType,
   filename,
   url: 'https://crm.example.de/file/agent-chat/abc?token=x',
   fileId,
+  storagePath,
 });
 
 const buildTextPart = (text: string) => ({ type: 'text' as const, text });
@@ -154,5 +156,47 @@ describe('injectAttachedFileIds ordering against replaceUnsupportedFileParts', (
     );
 
     expect(textOf(wrongOrder[0])).not.toContain('`file-1`');
+  });
+});
+
+describe('injectAttachedFileIds storage path', () => {
+  const PATH =
+    'dacaae54-d2ce-4f8b-aa04-c973107c6449/f37e0d33-4582-40b0-afee-09c133fe1515/agent-chat/72fe5175-ca7d-4f65-8f63-d05257ffff1b.png';
+
+  it('gives the storage path verbatim so nothing has to be assembled', () => {
+    const messages = [
+      buildMessage('user', [
+        buildFilePart('image/png', 'file-1', 'shot.png', PATH),
+      ]),
+    ];
+
+    expect(lastText(injectAttachedFileIds(messages)[0])).toContain(
+      `storage path: \`${PATH}\``,
+    );
+  });
+
+  it('still lists the file when no storage path is known', () => {
+    const messages = [
+      buildMessage('user', [buildFilePart('image/png', 'file-1', 'shot.png')]),
+    ];
+
+    const text = lastText(injectAttachedFileIds(messages)[0]);
+
+    expect(text).toContain('`file-1`');
+    expect(text).not.toContain('storage path');
+  });
+
+  // The model previously copied the shape of an example URL and filled in an
+  // id it happened to have, producing /file/attachment/<attachmentId>.
+  it('tells the model not to construct paths itself', () => {
+    const messages = [
+      buildMessage('user', [
+        buildFilePart('image/png', 'file-1', 'shot.png', PATH),
+      ]),
+    ];
+
+    expect(lastText(injectAttachedFileIds(messages)[0])).toContain(
+      'Never\nconstruct a file URL or a path yourself',
+    );
   });
 });

@@ -20,7 +20,16 @@ const describeAttachedFile = (part: ExtendedFileUIPart): string => {
   const label =
     filename !== undefined && filename !== '' ? filename : 'attachment';
 
-  return `- \`${label}\` (${part.mediaType}) id: \`${part.fileId}\``;
+  // The storage path is given verbatim so nothing has to be assembled or
+  // guessed. Without it the model invents a plausible-looking file URL, which
+  // is worse than having no reference at all: it looks right and resolves to
+  // nothing.
+  const storagePath =
+    part.storagePath !== undefined && part.storagePath !== ''
+      ? `\n  storage path: \`${part.storagePath}\``
+      : '';
+
+  return `- \`${label}\` (${part.mediaType}) id: \`${part.fileId}\`${storagePath}`;
 };
 
 export const injectAttachedFileIds = (
@@ -42,7 +51,9 @@ export const injectAttachedFileIds = (
     const referencePart = {
       type: 'text' as const,
       text: `<attached_files>
-Files attached to this message. Pass the id to a tool that takes a file.
+Files attached to this message. Use these values exactly as given. Never
+construct a file URL or a path yourself: one that looks right but is invented
+resolves to nothing.
 ${fileParts.map(describeAttachedFile).join('\n')}
 </attached_files>`,
     };

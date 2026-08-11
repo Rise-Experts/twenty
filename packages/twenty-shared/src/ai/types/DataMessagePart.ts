@@ -13,6 +13,11 @@ export type ExtendedFileUIPart = {
   filename?: string;
   url: string;
   fileId: string;
+  // The object key in the storage bucket, workspaceId/applicationUniversalId/
+  // fileFolder/name. Optional because only the server can derive it, and only
+  // where the file relation is loaded. Storage-relative: under STORAGE_TYPE
+  // LOCAL the real location is this joined onto STORAGE_LOCAL_PATH.
+  storagePath?: string;
 };
 
 export const isExtendedFileUIPart = (
