@@ -822,55 +822,33 @@ export class AgentChatStreamingService {
     );
 
     return Promise.all(
-      filteredMessages.map(async (message) => {
-        // The mapper keeps only fileId, so the storage key is collected from
-        // the entities before mapping. The key is derived, never stored: the
-        // row holds a path relative to the owning application, and the two
-        // leading segments come from the workspace and that application.
-        const storagePathByFileId = new Map<string, string>(
-          (message.parts ?? []).flatMap((part) =>
-            part.fileId && part.file?.path && part.file.application
-              ? [
-                  [
-                    part.fileId,
-                    `${workspaceId}/${part.file.application.universalIdentifier}/${part.file.path}`,
-                  ] as [string, string],
-                ]
-              : [],
-          ),
-        );
+      filteredMessages.map(async (message) => ({
+        id: message.id,
+        role: message.role as 'user' | 'assistant' | 'system',
+        parts: await Promise.all(
+          mapDBPartsToUIMessageParts(message.parts ?? []).map(async (part) => {
+            if (isExtendedFileUIPart(part as Record<string, unknown>)) {
+              const filePart = part as ExtendedFileUIPart;
 
-        return {
-          id: message.id,
-          role: message.role as 'user' | 'assistant' | 'system',
-          parts: await Promise.all(
-            mapDBPartsToUIMessageParts(message.parts ?? []).map(
-              async (part) => {
-                if (isExtendedFileUIPart(part as Record<string, unknown>)) {
-                  const filePart = part as ExtendedFileUIPart;
+              return {
+                ...filePart,
+                url: await this.fileUrlService.signFileByIdUrl({
+                  fileId: filePart.fileId,
+                  workspaceId,
+                  fileFolder: FileFolder.AgentChat,
+                }),
+              } as ExtendedFileUIPart;
+            }
 
-                  return {
-                    ...filePart,
-                    storagePath: storagePathByFileId.get(filePart.fileId),
-                    url: await this.fileUrlService.signFileByIdUrl({
-                      fileId: filePart.fileId,
-                      workspaceId,
-                      fileFolder: FileFolder.AgentChat,
-                    }),
-                  } as ExtendedFileUIPart;
-                }
-
-                return part;
-              },
-            ),
-          ),
-          // The hidden context seed gets no createdAt so injectMessageTimestamps skips it: its
-          // insert time is meaningless and later than the first real message it sorts before.
-          ...(message.isHidden
-            ? {}
-            : { metadata: { createdAt: message.createdAt.toISOString() } }),
-        };
-      }),
+            return part;
+          }),
+        ),
+        // The hidden context seed gets no createdAt so injectMessageTimestamps skips it: its
+        // insert time is meaningless and later than the first real message it sorts before.
+        ...(message.isHidden
+          ? {}
+          : { metadata: { createdAt: message.createdAt.toISOString() } }),
+      })),
     );
   }
 

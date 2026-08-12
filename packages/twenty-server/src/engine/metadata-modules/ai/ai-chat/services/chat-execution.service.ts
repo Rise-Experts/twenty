@@ -64,7 +64,6 @@ import {
 } from 'src/engine/metadata-modules/ai/ai-chat/tools/ask-questions.tool';
 import { type ExtractedFile } from 'src/engine/metadata-modules/ai/ai-chat/types/extracted-file.type';
 import { extractCodeInterpreterFiles } from 'src/engine/metadata-modules/ai/ai-chat/utils/extract-code-interpreter-files.util';
-import { injectAttachedFileIds } from 'src/engine/metadata-modules/ai/ai-chat/utils/inject-attached-file-ids.util';
 import { injectMessageTimestamps } from 'src/engine/metadata-modules/ai/ai-chat/utils/inject-message-timestamps.util';
 import {
   getCacheProviderOptions,
@@ -245,16 +244,8 @@ export class ChatExecutionService {
 
     const isCodeInterpreterEnabled = this.codeInterpreterService.isEnabled();
 
-    // Before replaceUnsupportedFileParts, which swaps a file the model cannot
-    // read for a text stub and drops the fileId with it. That is precisely the
-    // file the agent most needs a handle for: it cannot look at the thing, so a
-    // reference is the only way it can act on it. Listing the ids first means
-    // every attachment gets one, supported or not.
-    let processedMessages: ExtendedUIMessage[] =
-      injectAttachedFileIds(messages);
-
-    processedMessages = replaceUnsupportedFileParts(
-      processedMessages,
+    let processedMessages: ExtendedUIMessage[] = replaceUnsupportedFileParts(
+      messages,
       modelConfig.modalities,
       isCodeInterpreterEnabled,
     );

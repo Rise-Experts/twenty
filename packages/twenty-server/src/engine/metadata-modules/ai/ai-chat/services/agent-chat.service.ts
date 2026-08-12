@@ -417,7 +417,7 @@ export class AgentChatService {
     return this.messageRepository.find(workspaceId, {
       where: { threadId, ...(includeHidden ? {} : { isHidden: false }) },
       order: { processedAt: { direction: 'ASC', nulls: 'LAST' } },
-      relations: ['parts', 'parts.file', 'parts.file.application'],
+      relations: ['parts', 'parts.file'],
     });
   }
 
@@ -582,7 +582,7 @@ export class AgentChatService {
         status: AgentMessageStatus.QUEUED,
       },
       order: { createdAt: 'ASC' },
-      relations: ['parts', 'parts.file', 'parts.file.application'],
+      relations: ['parts', 'parts.file'],
     });
   }
 
