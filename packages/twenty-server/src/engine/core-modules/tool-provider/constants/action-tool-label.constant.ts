@@ -11,6 +11,7 @@ export const ACTION_TOOL_IDS = [
   'search_help_center',
   'code_interpreter',
   'navigate_app',
+  'get_file_url',
   'save_campaign',
 ] as const;
 
@@ -37,6 +38,9 @@ export const ACTION_TOOL_LABELS: Record<ActionToolId, ActionToolLabel> = {
   },
   navigate_app: {
     label: i18nLabel(msg`Navigate App`),
+  },
+  get_file_url: {
+    label: i18nLabel(msg`Get File URL`),
   },
   save_campaign: {
     label: i18nLabel(msg`Save Campaign`),

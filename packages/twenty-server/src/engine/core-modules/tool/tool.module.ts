@@ -5,6 +5,7 @@ import { ApplicationModule } from 'src/engine/core-modules/application/applicati
 import { FeatureFlagModule } from 'src/engine/core-modules/feature-flag/feature-flag.module';
 import { FileEntity } from 'src/engine/core-modules/file/entities/file.entity';
 import { FileModule } from 'src/engine/core-modules/file/file.module';
+import { FileUrlModule } from 'src/engine/core-modules/file/file-url/file-url.module';
 import { JwtModule } from 'src/engine/core-modules/jwt/jwt.module';
 import { SecureHttpClientModule } from 'src/engine/core-modules/secure-http-client/secure-http-client.module';
 import { CreateCalendarEventTool } from 'src/engine/core-modules/tool/tools/calendar-tool/create-calendar-event-tool';
@@ -14,6 +15,7 @@ import { EmailComposerService } from 'src/engine/core-modules/tool/tools/email-t
 import { SendEmailTool } from 'src/engine/core-modules/tool/tools/email-tool/send-email-tool';
 import { HttpTool } from 'src/engine/core-modules/tool/tools/http-tool/http-tool';
 import { NavigateAppTool } from 'src/engine/core-modules/tool/tools/navigate-tool/navigate-app-tool';
+import { GetFileUrlTool } from 'src/engine/core-modules/tool/tools/get-file-url-tool/get-file-url-tool';
 import { ExtractJsonPathsTool } from 'src/engine/core-modules/tool/tools/output-navigation-tool/extract-json-paths-tool';
 import { SearchOutputTool } from 'src/engine/core-modules/tool/tools/output-navigation-tool/search-output-tool';
 import { SearchHelpCenterTool } from 'src/engine/core-modules/tool/tools/search-help-center-tool/search-help-center-tool';
@@ -42,6 +44,7 @@ import { provideWorkspaceScopedRepository } from 'src/engine/twenty-orm/workspac
     ViewModule,
     NavigationMenuItemModule,
     WorkspaceManyOrAllFlatEntityMapsCacheModule,
+    FileUrlModule,
   ],
   providers: [
     HttpTool,
@@ -52,6 +55,7 @@ import { provideWorkspaceScopedRepository } from 'src/engine/twenty-orm/workspac
     SearchHelpCenterTool,
     CodeInterpreterTool,
     NavigateAppTool,
+    GetFileUrlTool,
     ExtractJsonPathsTool,
     SearchOutputTool,
     ToolOutputSpillService,
@@ -66,6 +70,7 @@ import { provideWorkspaceScopedRepository } from 'src/engine/twenty-orm/workspac
     SearchHelpCenterTool,
     CodeInterpreterTool,
     NavigateAppTool,
+    GetFileUrlTool,
     ExtractJsonPathsTool,
     SearchOutputTool,
     ToolOutputSpillService,
