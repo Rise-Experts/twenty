@@ -35,6 +35,7 @@ import { agentChatMessagesComponentFamilyState } from '@/ai/states/agentChatMess
 import { agentChatSelectedFilesState } from '@/ai/states/agentChatSelectedFilesState';
 import { agentChatUploadedFilesState } from '@/ai/states/agentChatUploadedFilesState';
 import { currentAiChatThreadState } from '@/ai/states/currentAiChatThreadState';
+import { appendUploadedFileReferences } from '@/ai/utils/appendUploadedFileReferences';
 import { useListenToBrowserEvent } from '@/browser-event/hooks/useListenToBrowserEvent';
 import { dispatchBrowserEvent } from '@/browser-event/utils/dispatchBrowserEvent';
 import { useSnackBar } from '@/ui/feedback/snack-bar-manager/hooks/useSnackBar';
@@ -93,6 +94,11 @@ export const useAgentChat = (
 
     const agentChatUploadedFiles = store.get(agentChatUploadedFilesState.atom);
 
+    const contentWithFileReferences = appendUploadedFileReferences(
+      contentToSend,
+      agentChatUploadedFiles,
+    );
+
     const threadId = await ensureThreadIdForSend();
 
     if (!isDefined(threadId)) {
@@ -133,7 +139,7 @@ export const useAgentChat = (
       id: messageId,
       role: 'user',
       parts: [
-        { type: 'text' as const, text: contentToSend },
+        { type: 'text' as const, text: contentWithFileReferences },
         ...agentChatUploadedFiles,
       ],
       metadata: {
@@ -181,7 +187,7 @@ export const useAgentChat = (
         mutation: SEND_CHAT_MESSAGE,
         variables: {
           threadId,
-          text: contentToSend,
+          text: contentWithFileReferences,
           messageId,
           browsingContext: browsingContextToSend,
           modelId: modelIdForRequest ?? undefined,
